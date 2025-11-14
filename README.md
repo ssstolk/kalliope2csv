@@ -23,8 +23,9 @@ Examples (the first using the URL of a Kalliope website search, the second using
 ```./kalliope-letters2csv -url https://kalliope-verbund.info/sru?version=1.2&operation=searchRetrieve&recordSchema=mods37&query=ead.unitdate<=2020%20AND%20ead.unitdate>=1800%20AND%20ead.creator.index="Sievers%2C%20Eduard%20%281850-1932%29"%20AND%20ead.addressee.index="Zarncke%2C%20Friedrich%20%281825-1891%29"```
 
 ## Credits and thanks
-Author scripts: Sander Stolk
-Author stylesheet: Sander Stolk, Thijs Porck
+- Author scripts: Sander Stolk
+- Author stylesheet: Sander Stolk, Thijs Porck
+
 Made possible with the ERC funding for the [EMERGENCE](https://www.universiteitleiden.nl/en/research/research-projects/humanities/emergence) project.
 
 ## License
