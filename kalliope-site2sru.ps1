@@ -75,38 +75,42 @@ function Kalliope-Site2SRU {
   $url = $url -replace $pattern, "";
   $pattern = (Esc "https://kalliope-verbund.info/")+"[^\?]*"+(Esc "?");
   $url = $url -replace $pattern, "https://kalliope-verbund.info/sru?version=1.2&operation=searchRetrieve&recordSchema=mods37&query=";
-  $pattern = "&query=q=([^&]*)&";           #"([^f])q=([^&]*)&";
-  $url = $url -replace $pattern, "&query="; # "$1"
 
   # ead.addressee
   # Beispiel: ead.addressee="Adenauer, Konrad"
-  $pattern = (Esc "fq=ead.addressee.index%3A%28%22")+"([^&]*)"+(Esc "%22%29&");
+  $pattern = "f?q="+(Esc "ead.addressee.index%3A%28%22")+"([^&]*)"+(Esc "%22%29&");
   $url = $url -replace $pattern, 'ead.addressee.index="$1"%20AND%20';
+  
+  $pattern = "f?q="+(Esc "ead.addressee.gnd%3D%3D%22")+"([^&]*)"+(Esc "%22&");
+  $url = $url -replace $pattern, 'ead.addressee.gnd=%22$1%22%20AND%20';
 
   # ead.creator
   # Beispiel: ead.creator="Kady, Muhammed"
-  $pattern = (Esc "fq=ead.creator.index%3A%28%22")+"([^&]*)"+(Esc "%22%29&");
+  $pattern = "f?q="+(Esc "ead.creator.index%3A%28%22")+"([^&]*)"+(Esc "%22%29&");
   $url = $url -replace $pattern, 'ead.creator.index="$1"%20AND%20';
+  
+  $pattern = "f?q="+(Esc "ead.creator.gnd%3D%3D%22")+"([^&]*)"+(Esc "%22&");
+  $url = $url -replace $pattern, 'ead.creator.gnd=%22$1%22%20AND%20';
   
   # ead.genre
   # Beispiel: ead.genre="Tagebuch"
-  $pattern = (Esc "fq=ead.genre.index%3A%28%22")+"([^&]*)"+(Esc "%22%29&");
+  $pattern = "f?q="+(Esc "ead.genre.index%3A%28%22")+"([^&]*)"+(Esc "%22%29&");
   $url = $url -replace $pattern, 'ead.genre.index=(%22$1%22)%20AND%20';
 
   # ead.repository
   # Beispiel: ead.repository="Forschungsbibliothek Gotha"
-  $pattern = (Esc "fq=ead.repository.index%3A%28%22")+"([^&]*)"+(Esc "%22%29&");
+  $pattern = "f?q="+(Esc "ead.repository.index%3A%28%22")+"([^&]*)"+(Esc "%22%29&");
   $url = $url -replace $pattern, 'ead.repository.index=(%22$1%22)%20AND%20';
 
   # ead.unitdate
   # Beispiel: ead.unitdate="1855"
-  $pattern = (Esc "fq=%2Bgi.unitdate_start%3A%5B-9999%20TO%")+"(....)"+(Esc "00%5D%20%2Bgi.unitdate_end%3A%5B")+"(....)"+(Esc "%20TO%209999%5D&");
+  $pattern = "f?q="+(Esc "%2Bgi.unitdate_start%3A%5B-9999%20TO%")+"(....)"+(Esc "00%5D%20%2Bgi.unitdate_end%3A%5B")+"(....)"+(Esc "%20TO%209999%5D&");
   $url = $url -replace $pattern, 'ead.unitdate<=$1%20AND%20ead.unitdate>=$2%20AND%20';
-  $pattern = (Esc "fq=%2Bgi.unitdate_end%3A%5B")+"(....)"+(Esc "%20TO%209999%5D%20%2Bgi.unitdate_start%3A%5B-9999%20TO%")+"(....)"+(Esc "00%5D&");
+  $pattern = "f?q="+(Esc "%2Bgi.unitdate_end%3A%5B")+"(....)"+(Esc "%20TO%209999%5D%20%2Bgi.unitdate_start%3A%5B-9999%20TO%")+"(....)"+(Esc "00%5D&");
   $url = $url -replace $pattern, 'ead.unitdate<=$2%20AND%20ead.unitdate>=$1%20AND%20';
-  $pattern = (Esc "fq=%2Bgi.unitdate_start%3A%5B-9999%20TO%")+"(....)"+(Esc "00%5D&");
+  $pattern = "f?q="+(Esc "%2Bgi.unitdate_start%3A%5B-9999%20TO%")+"(....)"+(Esc "00%5D&");
   $url = $url -replace $pattern, 'ead.unitdate<=$1%20AND%20';
-  $pattern = (Esc "fq=%2Bgi.unitdate_end%3A%5B")+"(....)"+(Esc "%20TO%209999%5D&");
+  $pattern = "f?q="+(Esc "%2Bgi.unitdate_end%3A%5B")+"(....)"+(Esc "%20TO%209999%5D&");
   $url = $url -replace $pattern, 'ead.unitdate>=$1%20AND%20';
   
   $pattern = (Esc "%20AND%20lastparam=true");
@@ -116,6 +120,9 @@ function Kalliope-Site2SRU {
   $url = $url -replace $pattern, "";
   
   # TODO: if it still contains a fq=, then throw error or log "could not translate it, so removed it, but query incomplete"
+
+  $pattern = "&query=q=([^&]*)&";           #"([^f])q=([^&]*)&";
+  $url = $url -replace $pattern, "&query="; # "$1"
 
   return $url
 }
