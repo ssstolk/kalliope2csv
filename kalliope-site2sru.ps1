@@ -92,6 +92,14 @@ function Kalliope-Site2SRU {
   $pattern = "f?q="+(Esc "ead.creator.gnd%3D%3D%22")+"([^&]*)"+(Esc "%22&");
   $url = $url -replace $pattern, 'ead.creator.gnd=%22$1%22%20AND%20';
   
+  # ead.otherroles
+  # Beispiel: ead.otherroles="Kady, Muhammed"
+  $pattern = "f?q="+(Esc "ead.otherroles.index%3A%28%22")+"([^&]*)"+(Esc "%22%29&");
+  $url = $url -replace $pattern, 'ead.otherroles.index="$1"%20AND%20';
+  
+  $pattern = "f?q="+(Esc "ead.otherroles.gnd%3D%3D%22")+"([^&]*)"+(Esc "%22&");
+  $url = $url -replace $pattern, 'ead.otherroles.gnd=%22$1%22%20AND%20';
+  
   # ead.genre
   # Beispiel: ead.genre="Tagebuch"
   $pattern = "f?q="+(Esc "ead.genre.index%3A%28%22")+"([^&]*)"+(Esc "%22%29&");
