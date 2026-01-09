@@ -106,7 +106,7 @@ function Kalliope-Site2SRU {
   # Beispiel: ead.unitdate="1855"
   $pattern = "f?q="+(Esc "%2Bgi.unitdate_start%3A%5B-9999%20TO%")+"(....)"+(Esc "00%5D%20%2Bgi.unitdate_end%3A%5B")+"(....)"+(Esc "%20TO%209999%5D&");
   $url = $url -replace $pattern, 'ead.unitdate<=$1%20AND%20ead.unitdate>=$2%20AND%20';
-  $pattern = "f?q="+(Esc "%2Bgi.unitdate_end%3A%5B")+"(....)"+(Esc "%20TO%209999%5D%20%2Bgi.unitdate_start%3A%5B-9999%20TO%")+"(....)"+(Esc "00%5D&");
+  $pattern = "f?q="+(Esc "%2Bgi.unitdate_end%3A%5B")+"(....)"+(Esc "%20TO%209999%5D%20%2Bgi.unitdate_start%3A%5B-9999%20TO%20")+"(....)"+(Esc "%5D(%20)")+"?"+(Esc "&");
   $url = $url -replace $pattern, 'ead.unitdate<=$2%20AND%20ead.unitdate>=$1%20AND%20';
   $pattern = "f?q="+(Esc "%2Bgi.unitdate_start%3A%5B-9999%20TO%")+"(....)"+(Esc "00%5D&");
   $url = $url -replace $pattern, 'ead.unitdate<=$1%20AND%20';
