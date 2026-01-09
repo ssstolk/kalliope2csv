@@ -12,7 +12,15 @@ Additionally, it contains two files specifically used within the research projec
 - `kalliopeLetters2csv.xslt` - XSLT stylesheet to transform Kalliope XML files on Letters to appropriate CSV files
 
 Use of these scripts are shown as comments inside each script itself.
-Running the main script can be as simple as opening Powershell in Windows and running:
+Running the main script is simple. First open Powershell in Windows. In Powershell, change the directory to that in which the scripts are located in case another directory is currently open.
+ 
+```cd <..PATHWAY TO FOLDER WITH SCRIPTS..>```
+
+Ensure the execution policy in Powershell allows you to execute code by running, e.g.,
+
+```powershell -ExecutionPolicy Bypass```
+
+Next, you will be able to simply run the main script. 
 
 ```./kalliope-letters2csv -url "..URL HERE.."```
 
