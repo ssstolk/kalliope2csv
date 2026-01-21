@@ -34,7 +34,7 @@ Examples (the first using the URL of a Kalliope website search, the second using
 - Author scripts: Sander Stolk
 - Author stylesheet: Sander Stolk, Thijs Porck
 
-Made possible with the ERC funding for the [EMERGENCE](https://www.universiteitleiden.nl/en/research/research-projects/humanities/emergence) project.
+This software is part of a project that has received funding from the European Research Council (ERC) under the European Union’s Horizon Europe research and innovation program ([EMERGENCE](https://www.universiteitleiden.nl/en/research/research-projects/humanities/emergence), Grant agreement No. 101115867, https://doi.org/10.3030/101115867 ). Funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Research Council Executive Agency. Neither the European Union nor the granting authority can be held responsible for them. 
 
 ## License
 GNU General Public License v3
