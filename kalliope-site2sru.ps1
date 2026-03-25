@@ -21,7 +21,7 @@
 #           EXAMPLE USE                 #
 #########################################
 # Run the following in PowerShell
-# .\fetch-pages.ps1 -url "https://kalliope-verbund.info/sru?version=1.2&operation=searchRetrieve&recordSchema=mods37&query=ead.repository.index=(%22Universit%C3%A4tsbibliothek+Leipzig%22)%20AND%20ead.genre.index=(%22Brief%22)%20AND%20ead.unitdate%3E=1786%20AND%20ead.unitdate%3C=1914" -itemCount 127138 -itemOne 1 -pageSize 5000 -pageSizeVariable "maximumRecords" -itemStartVariable "startRecord" -dest ".\out" -ext "xml"
+# .\kalliope-site2sru.ps1 -url "https://kalliope-verbund.info/search.html?q=%22Siegfried%20Lenz%22&lastparam=true"
 
 
 #########################################
@@ -41,11 +41,6 @@ param (
 # Function: downloads the $url and stores it as the path indicated by $file
 #########################################
   
-  # SRU example
-  # "https://kalliope-verbund.info/sru?version=1.2&operation=searchRetrieve&recordSchema=mods37&query="
-  # "ead.repository.index=(%22Universit%C3%A4tsbibliothek+Leipzig%22)%20AND%20ead.genre.index=(%22Brief%22)%20AND%20ead.unitdate%3E=1786%20AND%20ead.unitdate%3C=1914"
-
-
 function Esc {
   param (
     [string]$s
@@ -66,11 +61,10 @@ function Kalliope-Site2SRU {
   )
 
   if (!$url) {
-    Write-Error "No Website URL was supplied for Kalliope"
+    Write-Error "No Website URL was supplied for Kalliope";
     Exit 1;
   }
   
-#  https://kalliope-verbund.info/de/query?q=sievers&htmlFull=false&fq=%2Bgi.unitdate_end%3A%5B1800%20TO%209999%5D%20%2Bgi.unitdate_start%3A%5B-9999%20TO%202000%5D&fq=ead.creator.index%3A%28%22Sievers%2C%20Eduard%20%281850-1932%29%22%29&lang=de&fq=ead.addressee.index%3A%28%22Zarncke%2C%20Friedrich%20%281825-1891%29%22%29&lastparam=true
   $pattern = (Esc "htmlFull=false&");
   $url = $url -replace $pattern, "";
   $pattern = (Esc "https://kalliope-verbund.info/")+"[^\?]*"+(Esc "?");
@@ -127,12 +121,21 @@ function Kalliope-Site2SRU {
   $pattern = (Esc "lang=[^%&]*&");
   $url = $url -replace $pattern, "";
   
-  # TODO: if it still contains a fq=, then throw error or log "could not translate it, so removed it, but query incomplete"
+  # full text searches
+  $pattern = "&query=q=%22([^&]*)%22&";
+  $url = $url -replace $pattern, '&query=gi.index%20adj%20%22$1%22&';
+  $pattern = "&query=q=([^&]*)&";
+  $url = $url -replace $pattern, '&query=gi.index=$1&';
 
-  $pattern = "&query=q=([^&]*)&";           #"([^f])q=([^&]*)&";
-  $url = $url -replace $pattern, "&query="; # "$1"
+  # if query parameters remain, write error indicating untranslated parameter and exit
+  if ($url -contains "fq=") {
+    $pattern = ".*[?&](fq=[^&$]*).*";
+    $fqparam = $url -replace $pattern, '$1';
+    Write-Error "URL contains query parameter not yet supported in translation script: " + $searchparam;
+    Exit 1;
+  }
 
-  return $url
+  return $url;
 }
 
 
