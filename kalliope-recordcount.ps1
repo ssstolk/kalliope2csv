@@ -38,7 +38,7 @@ param (
 #########################################
 
 $url = "$($url)&maximumRecords=1"
-$response = Invoke-WebRequest -Uri $url
+$response = Invoke-WebRequest -UseBasicParsing -Uri $url
 [ xml ]$xml = $response
 $ns = New-Object System.Xml.XmlNamespaceManager($xml.NameTable)
 $ns.AddNamespace("srw", "http://www.loc.gov/zing/srw/")

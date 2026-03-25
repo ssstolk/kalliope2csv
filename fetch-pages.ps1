@@ -68,7 +68,7 @@ function Download {
   $dest = "$dir\$file"
   Write-Output "... downloading to `"$dest`""
   New-Item -ItemType Directory -Force -Path $dir | Out-Null
-  Invoke-WebRequest -Uri $url -OutFile $dest
+  Invoke-WebRequest -UseBasicParsing -Uri $url -OutFile $dest
 }
 
 
